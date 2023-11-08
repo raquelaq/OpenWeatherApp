@@ -30,12 +30,6 @@ public class DatabaseManager {
     public static void main(String[] args) {
         createDatabase(path, "database.db");
 
-        // Conexión tabla con database
-        try (Connection conn = DatabaseManager.getConnection("database.db")) {
-            SqliteWeatherStore.createTable(conn);
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
     }
 
 }
