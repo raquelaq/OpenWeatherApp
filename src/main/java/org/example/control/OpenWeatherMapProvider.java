@@ -11,7 +11,9 @@ import org.example.model.Weather;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OpenWeatherMapProvider {
     // Clase encargada de obtener todos los datos
@@ -19,6 +21,7 @@ public class OpenWeatherMapProvider {
     private static final String query = "https://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&appid=96401e11b3d4fbefb6ff23c1a69fde24";  //En donde están los # añado la lat y lon de cada isla.
 
     public static Coordinates galdarCoord = new Coordinates(28.14701,-15.6502);
+    public static Coordinates garachicoCoord = new Coordinates(28.373686, -16.7640491);
 
     public JsonObject generate() throws IOException {
         ResponseBuilder responseBuilder = new ResponseBuilder();
@@ -84,4 +87,17 @@ public class OpenWeatherMapProvider {
         weatherList.add(new Weather(timestamp, temperature, precipitation, humidity, clouds, windSpeed, galdarCoord));
     }*/
 
+    public static Map<String, Coordinates> createMap() {
+        Map<String, Coordinates> dict = new HashMap<>();
+        dict.put("Galdar", new Coordinates(28.14701,-15.6502)); // Gran Canaria
+        dict.put("Garachico", new Coordinates(28.373686, -16.7640491)); // Tenerife
+        dict.put("Antigua", new Coordinates(28.4160163, -14.0118473)); // Fuerteventura
+        dict.put("Yaiza", new Coordinates(28.9567800, -13.7653500)); // Lanzarote
+        dict.put("Barlovento", new Coordinates(28.816667, -17.766667)); // La Palma
+        dict.put("Valverde", new Coordinates(27.809685, -17.915147)); // El Hierro
+        dict.put("Vallehermoso", new Coordinates(28.179868, -17.264683)); // La Gomera
+        dict.put("Caleta del Sebo", new Coordinates(29.231389, -13.501944)); // La Graciosa
+
+        return dict;
+    }
 }

@@ -18,7 +18,7 @@ public class Main {
             SqliteWeatherStore.createTable(conn);
 
             for (Weather weather : weatherList) {
-                SqliteWeatherStore.insertWeatherData(conn, "Gran Canaria", weather.getTs(), weather.getTemperature(),
+                SqliteWeatherStore.insertWeatherData(conn, "Gáldar", weather.getTs(), weather.getTemperature(),
                         weather.getRain(), weather.getWindSpeed(), weather.getCoordinates().getLatitude(), weather.getCoordinates().getLongitude());
             }
         } catch (SQLException e) {
