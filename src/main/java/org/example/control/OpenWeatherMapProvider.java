@@ -20,34 +20,32 @@ public class OpenWeatherMapProvider {
     private final List<Weather> weatherList = new ArrayList<>();
     private static final String query = "https://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&appid=96401e11b3d4fbefb6ff23c1a69fde24";  //En donde están los # añado la lat y lon de cada isla.
 
-    public static Coordinates galdarCoord = new Coordinates(28.14701,-15.6502);
-    public static Coordinates garachicoCoord = new Coordinates(28.373686, -16.7640491);
-
-    public JsonObject generate() throws IOException {
+    public JsonObject generate(Coordinates coordinates) throws IOException {
         ResponseBuilder responseBuilder = new ResponseBuilder();
-        String res = responseBuilder.response(galdarCoord, query);
+        String res = responseBuilder.response(coordinates, query);
         JsonParser parser = new JsonParser();
         return (JsonObject) parser.parse(res);
     }
 
-    public List<Weather> buildWeather() throws IOException {
+
+    public List<Weather> buildWeather(Coordinates coordinates) throws IOException {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        JsonObject json = generate();
+        List<Weather> weatherList = new ArrayList<>();
+
+        JsonObject json = generate(coordinates);
         JsonArray jsonArray = (JsonArray) json.get("list");
+
         for (JsonElement jsonElement : jsonArray) {
             JsonObject jsonObject = (JsonObject) jsonElement;
             String datetime = jsonObject.get("dt_txt").toString().substring(12, 20);
+
             if (datetime.equals("12:00:00")) {
-                double precipitation = getPrecipitation(jsonObject);
-                double temperature = getTemperature(jsonObject);
-                double humidity = getHumidity(jsonObject);
-                double clouds = getClouds(jsonObject);
-                double windSpeed = getWindSpeed(jsonObject);
-                weatherList.add(new Weather(timestamp, temperature, precipitation, humidity, clouds, windSpeed, galdarCoord));
+                buildWeatherList(timestamp, jsonObject, coordinates);
             }
         }
         return weatherList;
     }
+
 
     private double getPrecipitation(JsonObject jsonObject) {
         return jsonObject.get("pop").getAsDouble() * 100;
@@ -78,26 +76,28 @@ public class OpenWeatherMapProvider {
         return wind.get("speed").getAsDouble();
     }
 
-    /*private void buildWeatherList(Timestamp timestamp, JsonObject jsonObject, Coordinates coordinates) {
+    private void buildWeatherList(Timestamp timestamp, JsonObject jsonObject, Coordinates coordinates) {
         double precipitation = getPrecipitation(jsonObject);
         double temperature = getTemperature(jsonObject);
         double humidity = getHumidity(jsonObject);
         double clouds = getClouds(jsonObject);
         double windSpeed = getWindSpeed(jsonObject);
         weatherList.add(new Weather(timestamp, temperature, precipitation, humidity, clouds, windSpeed, galdarCoord));
-    }*/
+    }
 
     public static Map<String, Coordinates> createMap() {
         Map<String, Coordinates> dict = new HashMap<>();
-        dict.put("Galdar", new Coordinates(28.14701,-15.6502)); // Gran Canaria
-        dict.put("Garachico", new Coordinates(28.373686, -16.7640491)); // Tenerife
-        dict.put("Antigua", new Coordinates(28.4160163, -14.0118473)); // Fuerteventura
-        dict.put("Yaiza", new Coordinates(28.9567800, -13.7653500)); // Lanzarote
-        dict.put("Barlovento", new Coordinates(28.816667, -17.766667)); // La Palma
-        dict.put("Valverde", new Coordinates(27.809685, -17.915147)); // El Hierro
-        dict.put("Vallehermoso", new Coordinates(28.179868, -17.264683)); // La Gomera
-        dict.put("Caleta del Sebo", new Coordinates(29.231389, -13.501944)); // La Graciosa
+        dict.put("Gran Canaria", new Coordinates("Galdar", 28.14701,-15.6502));
+        dict.put("Tenerife", new Coordinates("Garachico", 28.373686, -16.7640491));
+        dict.put("Fuerteventura", new Coordinates("Antigua",28.4160163, -14.0118473));
+        dict.put("Lanzarote", new Coordinates("Yaiza",28.9567800, -13.7653500));
+        dict.put("La Palma", new Coordinates("Barlovento",28.816667, -17.766667));
+        dict.put("El Hierro", new Coordinates("Valverde",27.809685, -17.915147));
+        dict.put("La Gomera", new Coordinates("Vallehermoso",28.179868, -17.264683));
+        dict.put("La Graciosa", new Coordinates("Caleta del Sebo",29.231389, -13.501944));
 
         return dict;
     }
+
+
 }

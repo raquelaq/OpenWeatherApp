@@ -1,6 +1,12 @@
 package org.example.control;
 
+import org.example.model.Coordinates;
+import org.example.model.Weather;
+
+import java.io.IOException;
 import java.sql.*;
+import java.util.List;
+import java.util.Map;
 
 public class DatabaseManager {
     // Crear la tabla (para galdar), crear el insert, crear el select
@@ -29,7 +35,6 @@ public class DatabaseManager {
 
     public static void main(String[] args) {
         createDatabase(path, "database.db");
-
     }
 
 }
