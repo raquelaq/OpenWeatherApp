@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
-import java.sql.Timestamp;
 
 public class SqliteWeatherStore {
     private static void createTable(Statement statement, String tableName) throws SQLException {

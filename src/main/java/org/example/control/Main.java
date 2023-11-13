@@ -13,10 +13,9 @@ import java.sql.Timestamp;
 public class Main {
     public static void main(String[] args) throws IOException {
         OpenWeatherMapProvider openWeatherMapProvider = new OpenWeatherMapProvider();
-        Map<String, Coordinates> coordinatesMap = OpenWeatherMapProvider.createMap();
+        Map<String, Coordinates> coordinatesMap = openWeatherMapProvider.createMap();
 
         try (Connection conn = DatabaseManager.getConnection("database.db")) {
-            // Crear tablas para cada coordenada en el diccionario
             SqliteWeatherStore.createTables(conn, coordinatesMap);
 
             for (Map.Entry<String, Coordinates> entry : coordinatesMap.entrySet()) {
@@ -24,10 +23,7 @@ public class Main {
                 String city = entry.getValue().getName();
                 Coordinates coordinates = entry.getValue();
 
-                // Obtener datos meteorológicos para cada ciudad
                 List<Weather> weatherList = openWeatherMapProvider.buildWeather(coordinates);
-
-                // Insertar datos meteorológicos en la base de datos
                 for (Weather weather : weatherList) {
                     SqliteWeatherStore.insertWeatherData(conn, tablename, city, weather, coordinates.getLatitude(), coordinates.getLongitude());
                 }
