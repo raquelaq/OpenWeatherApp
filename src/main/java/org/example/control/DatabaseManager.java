@@ -4,7 +4,7 @@ import java.sql.*;
 
 
 public class DatabaseManager {
-    // Crear la tabla (para galdar), crear el insert, crear el select
+    //Crear el insert, crear el select
     private static final String path = "C:\\Users\\ralme\\IdeaProjects\\OpenWeatherApp\\src\\main\\resources\\";
 
     public static Connection getConnection(String fileName) throws SQLException {

@@ -1,36 +1,51 @@
 package org.example.control;
 
 import org.example.model.Weather;
-import org.example.model.Coordinates;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        OpenWeatherMapProvider openWeatherMapProvider = new OpenWeatherMapProvider();
-        Map<String, Coordinates> coordinatesMap = openWeatherMapProvider.createMap();
+    public static void main(String[] args) throws IOException, SQLException {
+        Connection connection = DatabaseManager.getConnection("database.db");
 
-        try (Connection conn = DatabaseManager.getConnection("database.db")) {
-            SqliteWeatherStore.createTables(conn, coordinatesMap);
+        WeatherStore weatherStore = new WeatherStore(connection);
 
-            for (Map.Entry<String, Coordinates> entry : coordinatesMap.entrySet()) {
-                String tablename = entry.getKey();
-                String city = entry.getValue().getName();
-                Coordinates coordinates = entry.getValue();
+        MyTimerTask myTimerTask = new MyTimerTask(connection);
 
-                List<Weather> weatherList = openWeatherMapProvider.buildWeather(coordinates);
-                for (Weather weather : weatherList) {
-                    SqliteWeatherStore.insertWeatherData(conn, tablename, city, weather, coordinates.getLatitude(), coordinates.getLongitude());
-                }
-            }
 
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+        Timer timer = new Timer();
+        timer.schedule(myTimerTask, 0, 60000);
+
+        try {
+            Thread.sleep(600000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-    }
 
+        // Cancela el Timer cuando hayas terminado
+        timer.cancel();
+
+        // Cierra la conexión a la base de datos
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //timer.schedule(myTimerTask, 0, 3 * 60 * 60 * 1000);
+
+        /*List<Weather> weatherList = WeatherSelect.selectWeatherData("El Hierro");
+
+        // Imprimir los resultados o realizar otras operaciones con ellos
+       if (weatherList != null) {
+            for (Weather weather : weatherList) {
+                System.out.println(weather.toString());
+            }
+        }*/
+    }
 }
