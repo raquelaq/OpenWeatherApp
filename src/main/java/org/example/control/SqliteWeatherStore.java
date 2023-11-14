@@ -3,18 +3,19 @@ package org.example.control;
 import org.example.model.Coordinates;
 import org.example.model.Weather;
 
+import java.sql.*;
+import java.util.Map;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Map;
+
 
 public class SqliteWeatherStore {
     private static void createTable(Statement statement, String tableName) throws SQLException {
         String createTableSql = String.format(
                 "CREATE TABLE IF NOT EXISTS \"%s\" (" +
                         "city TEXT, " +
-                        "ts TIMESTAMP, " +
+                        "ts TEXT, " +
                         "temperature REAL, " +
                         "rain REAL, " +
                         "windSpeed REAL, " +
@@ -46,7 +47,7 @@ public class SqliteWeatherStore {
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(insertSql)) {
             preparedStatement.setString(1, city);
-            preparedStatement.setTimestamp(2, weather.getTs());
+            preparedStatement.setString(2, weather.getTs().toString());
             preparedStatement.setDouble(3, weather.getTemperature());
             preparedStatement.setDouble(4, weather.getRain());
             preparedStatement.setDouble(5, weather.getWindSpeed());
@@ -60,4 +61,5 @@ public class SqliteWeatherStore {
             System.out.println("Error inserting data: " + e.getMessage());
         }
     }
+
 }

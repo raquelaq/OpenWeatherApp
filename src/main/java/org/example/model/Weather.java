@@ -1,9 +1,10 @@
 package org.example.model;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 public class Weather {
-    private Timestamp ts;
+    private Instant ts;
     private double temperature;
     private double rain;
     private double humidity;
@@ -11,7 +12,7 @@ public class Weather {
     private double windSpeed;
     private Coordinates coordinates;
 
-    public Weather(Timestamp ts, double temperature, double rain, double humidity, double clouds, double windSpeed, Coordinates coordinates) {
+    public Weather(Instant ts, double temperature, double rain, double humidity, double clouds, double windSpeed, Coordinates coordinates) {
         this.ts = ts;
         this.temperature = temperature;
         this.rain = rain;
@@ -21,7 +22,7 @@ public class Weather {
         this.coordinates = coordinates;
     }
 
-    public Timestamp getTs() {
+    public Instant getTs() {
         return ts;
     }
 

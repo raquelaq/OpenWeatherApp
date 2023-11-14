@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.sql.Timestamp;
 
 public class Main {
     public static void main(String[] args) throws IOException {

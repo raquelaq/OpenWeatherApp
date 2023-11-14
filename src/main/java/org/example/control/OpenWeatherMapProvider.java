@@ -1,17 +1,17 @@
 package org.example.control;
 
+import org.example.model.Coordinates;
+import org.example.model.Weather;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.example.model.Coordinates;
-import org.example.model.Weather;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class OpenWeatherMapProvider {
     // Clase encargada de obtener todos los datos
-    private static final String query = "https://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&appid=96401e11b3d4fbefb6ff23c1a69fde24";  //En donde están los # añado la lat y lon de cada isla.
+    private static final String query = "https://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&appid=96401e11b3d4fbefb6ff23c1a69fde24";
 
     public JsonObject generate(Coordinates coordinates) throws IOException {
         ResponseBuilder responseBuilder = new ResponseBuilder();
@@ -30,7 +30,7 @@ public class OpenWeatherMapProvider {
 
 
     public List<Weather> buildWeather(Coordinates coordinates) throws IOException {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Instant instant = Instant.now();
         List<Weather> weatherList = new ArrayList<>();
 
         JsonObject json = generate(coordinates);
@@ -40,7 +40,7 @@ public class OpenWeatherMapProvider {
             JsonObject jsonObject = (JsonObject) jsonElement;
             String datetime = jsonObject.get("dt_txt").toString().substring(12, 20);
             if (datetime.equals("12:00:00")) {
-                buildWeatherList(timestamp, jsonObject, coordinates, weatherList);
+                buildWeatherList(instant, jsonObject, coordinates, weatherList);
             }
         }
         return weatherList;
@@ -76,13 +76,13 @@ public class OpenWeatherMapProvider {
         return wind.get("speed").getAsDouble();
     }
 
-    private void buildWeatherList(Timestamp timestamp, JsonObject jsonObject, Coordinates coordinates, List<Weather> weatherList) {
+    private void buildWeatherList(Instant instant, JsonObject jsonObject, Coordinates coordinates, List<Weather> weatherList) {
         double precipitation = getPrecipitation(jsonObject);
         double temperature = getTemperature(jsonObject);
         double humidity = getHumidity(jsonObject);
         double clouds = getClouds(jsonObject);
         double windSpeed = getWindSpeed(jsonObject);
-        weatherList.add(new Weather(timestamp, temperature, precipitation, humidity, clouds, windSpeed, coordinates));
+        weatherList.add(new Weather(instant, temperature, precipitation, humidity, clouds, windSpeed, coordinates));
     }
 
     public Map<String, Coordinates> createMap() {
