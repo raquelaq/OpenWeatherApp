@@ -15,12 +15,15 @@ public class Main {
         Connection connection = DatabaseManager.getConnection("database.db");
 
         WeatherStore weatherStore = new WeatherStore(connection);
+        weatherStore.storeWeatherData();
 
-        MyTimerTask myTimerTask = new MyTimerTask(connection);
+        //MyTimerTask myTimerTask = new MyTimerTask(connection);
 
 
-        Timer timer = new Timer();
+        /*Timer timer = new Timer();
         timer.schedule(myTimerTask, 0, 60000);
+        //timer.schedule(myTimerTask, 0, 3 * 60 * 60 * 1000);
+
 
         try {
             Thread.sleep(600000);
@@ -36,16 +39,15 @@ public class Main {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        //timer.schedule(myTimerTask, 0, 3 * 60 * 60 * 1000);
+        }*/
 
-        /*List<Weather> weatherList = WeatherSelect.selectWeatherData("El Hierro");
+        List<Weather> weatherList = WeatherSelect.selectWeatherData("El Hierro");
 
         // Imprimir los resultados o realizar otras operaciones con ellos
        if (weatherList != null) {
             for (Weather weather : weatherList) {
                 System.out.println(weather.toString());
             }
-        }*/
+        }
     }
 }

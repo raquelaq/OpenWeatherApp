@@ -11,15 +11,16 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class OpenWeatherMapProvider {
     // Clase encargada de obtener todos los datos
-    private static final String query = "https://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&appid=96401e11b3d4fbefb6ff23c1a69fde24";
+    private static final String query = "https://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&appid=96401e11b3d4fbefb6ff23c1a69fde24&units=metrics";
 
     public JsonObject generate(Coordinates coordinates) throws IOException {
         ResponseBuilder responseBuilder = new ResponseBuilder();
@@ -76,14 +77,21 @@ public class OpenWeatherMapProvider {
         return wind.get("speed").getAsDouble();
     }
 
+    private Instant getForecastTime(JsonObject jsonObject) {
+        Instant forecastTime = Instant.ofEpochSecond(jsonObject.getAsJsonObject().get("dt").getAsLong());
+        return forecastTime;
+    }
+
     private void buildWeatherList(Instant instant, JsonObject jsonObject, Coordinates coordinates, List<Weather> weatherList) {
         double precipitation = getPrecipitation(jsonObject);
         double temperature = getTemperature(jsonObject);
         double humidity = getHumidity(jsonObject);
         double clouds = getClouds(jsonObject);
         double windSpeed = getWindSpeed(jsonObject);
-        weatherList.add(new Weather(instant, temperature, precipitation, humidity, clouds, windSpeed, coordinates));
+        Instant forecastTime = getForecastTime(jsonObject);
+        weatherList.add(new Weather(instant, forecastTime, temperature, precipitation, humidity, clouds, windSpeed, coordinates));
     }
+
 
     public Map<String, Coordinates> createMap() {
         Map<String, Coordinates> dict = new HashMap<>();

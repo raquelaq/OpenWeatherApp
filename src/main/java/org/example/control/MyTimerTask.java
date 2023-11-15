@@ -4,17 +4,6 @@ import java.sql.Connection;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/*public class MyTimerTask extends TimerTask {
-    public void run() {
-        WeatherStore weatherStore = new WeatherStore();
-        try {
-            weatherStore.storeWeatherData();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}*/
-
 
 public class MyTimerTask extends TimerTask {
     private final Connection connection;
