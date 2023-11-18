@@ -82,5 +82,5 @@ In my code, you can tell some of the SOLID principles:
 - **Dependency Inversion Principle (DIP):** In general, dependencies are inverted, with high-level classes (Controller, WeatherStore, WebService) depending on abstractions or interfaces rather than concrete details.
 ## Class Diagram
 Here you have a class diagram of my code:
-![OpenWeather_diagram](https://github.com/raquelaq/OpenWeatherApp/assets/117348659/d00d4dcb-b76d-4089-aac5-8454e7e4415d)
+![OpenWeather_diagram](https://github.com/raquelaq/OpenWeatherApp/assets/117348659/8726f603-44fb-43e2-9913-9a36558daa43)
 
