@@ -6,7 +6,7 @@
    <img src="https://img.shields.io/badge/Released-November%202023-yellow">
    </p>
    
-![weatherforecastportada](https://github.com/raquelaq/OpenWeatherApp/assets/117348659/f5e9492b-b3b8-48f7-b837-44e425594930)
+![weatherforecastportada](https://github.com/raquelaq/OpenWeatherApp/assets/117348659/a065f471-ff5e-40f2-9311-91d008ce4c15)
 
 ## General Information
 This project has been created by Raquel Almeida Quesada for "Development of Applications for Data Science" (DACD), a second-year subject offered in the Data Science and Engineering Degree at the University of Las Palmas de Gran Canaria (ULPGC), School of Computer Engineering (EII).
@@ -36,7 +36,7 @@ This package comprises a collection of Java classesresponsible for executing the
 
    ⚠️**You must insert your "resources" path into the variable ```path``` so you can create your database**⚠️
   <p align="center">
-  <img width="426" alt="image" src="https://github.com/raquelaq/OpenWeatherApp/assets/117348659/cefa4cf5-1a30-44a7-a3f5-06e39aeacc8d">
+     <img width="426" alt="image" src="https://github.com/raquelaq/OpenWeatherApp/assets/117348659/891e8308-a579-4959-86db-606727dd5b9f">
   </p>
   
 - **Main**: houses the principal method ```main()``` that initiates the application. It creates an instance of ```Controller``` and calls the method ```execute()``` to start running the code
@@ -46,7 +46,7 @@ This package comprises a collection of Java classesresponsible for executing the
 
    ⚠️**You must insert your "API KEY" into the variable ```API_KEY``` to do de API call**⚠️
 <p align="center">
-<img width="352" alt="image" src="https://github.com/raquelaq/OpenWeatherApp/assets/117348659/5f98782c-17b9-4d77-8175-f3b8a98f6f4f">
+<img width="355" alt="image" src="https://github.com/raquelaq/OpenWeatherApp/assets/117348659/18643712-916d-4383-84ac-a620803d8e41">
 </p>
 
 - **SqliteWeatherStore**: manages the creation of the tables in the database using SQLite sentences. It includes methods for inserting, updating, and selecting weather data in the tables.  It establishes connections with the database through the **DatabaseManager** class.
@@ -56,7 +56,7 @@ This package comprises a collection of Java classesresponsible for executing the
 - **GUI**: it represents the graphical user interface of the application. You can choose which island you want to retrieve information from, and by pressing the "Show Info" button, you will have all the information displayed on the screen.
 
 <p align="center">
-<img width="440" alt="image" src="https://github.com/raquelaq/OpenWeatherApp/assets/117348659/d9444e7a-109c-483b-ba36-9461e2bc4725">
+<img width="537" alt="image" src="https://github.com/raquelaq/OpenWeatherApp/assets/117348659/1a16db3b-50fa-489a-90ae-fac103755a95">
 </p>
 
 ## Resources
