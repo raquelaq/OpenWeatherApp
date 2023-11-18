@@ -57,3 +57,13 @@ This package comprises a collection of Java classesresponsible for executing the
 <img width="440" alt="image" src="https://github.com/raquelaq/OpenWeatherApp/assets/117348659/d9444e7a-109c-483b-ba36-9461e2bc4725">
 </p>
 
+## Resources
+#### Enviroment
+The proyect has been created in IntelliJ IDEA, and uses Java 17 as the source and target compilation version (**maven.compiler.source** and **maven.compiler.target**)
+#### Documentation Tools
+Here are some webpages I used for the development of my code:
+
+- https://www.peixe.org.mx/sos/tutVent/
+- https://www.campusmvp.es/recursos/post/como-manejar-correctamente-fechas-en-java-el-paquete-java-time.aspx
+- https://www.geeksforgeeks.org/java-util-timertask-class-java/
+- 
