@@ -9,7 +9,7 @@
 ![weatherforecastportada](https://github.com/raquelaq/OpenWeatherApp/assets/117348659/a065f471-ff5e-40f2-9311-91d008ce4c15)
 
 ## General Information
-This project has been created by Raquel Almeida Quesada for "Development of Applications for Data Science" (DACD), a second-year subject offered in the Data Science and Engineering Degree at the University of Las Palmas de Gran Canaria (ULPGC), School of Computer Engineering (EII).
+This project has been created by Raquel Almeida Quesada for "Desarrollo de Aplicaciones para la Ciencia de Datos" (DACD), a second-year subject offered in the Data Science and Engineering Degree at the University of Las Palmas de Gran Canaria (ULPGC), School of Computer Engineering (EII).
 
 ## The Proyect
 The main objective of this program is to consume data from a REST API that provides public and free data. The API used in this case is the "Call 5 day / 3 hour forecast data" API from OpenWeatherMap.
@@ -40,18 +40,18 @@ This package comprises a collection of Java classesresponsible for executing the
   </p>
   
 - **Main**: houses the principal method ```main()``` that initiates the application. It creates an instance of ```Controller``` and calls the method ```execute()``` to start running the code
-- **MyTimerTask**: extends de ```TimerTask``` class and executes periodic tasks. Each time it runs, it stores weather data in the database. With this class, the code is set to run every six hours to obtain new predictions.
+- **MyTimerTask**: extends the ```TimerTask``` class and executes periodic tasks. Each time it runs, it stores weather data in the database. With this class, the code is set to run every six hours to obtain new predictions.
 - **ResponseBuilder**: contructs a response from the API requests. Uses an ```HttpURLConnection``` to make the request and obtain the response.
 - **OpenWeatherMapProvider**: it communicates with the OpenWeatherMap API to retrieve weather data. The ```buildWeather()``` method consctructs Weather objects from the API response and to create a coordinates map associated with the city names of the islands. In this case, the cities chosen are: Gran Canaria -> Galdar, Tenerife -> Garachico, Fuerteventura -> Antigua, Lanzarote -> Yaiza, La Palma -> Barlovento, El Hierro -> Valverde, La Gomera -> Vallehermoso, La Graciosa -> Caleta de Sebo.
 
-   ⚠️**You must insert your "API KEY" into the variable ```API_KEY``` to do de API call**⚠️
+   ⚠️**You must insert your "API KEY" into the variable ```API_KEY``` to do the API call**⚠️
 <p align="center">
 <img width="355" alt="image" src="https://github.com/raquelaq/OpenWeatherApp/assets/117348659/18643712-916d-4383-84ac-a620803d8e41">
 </p>
 
 - **SqliteWeatherStore**: manages the creation of the tables in the database using SQLite sentences. It includes methods for inserting, updating, and selecting weather data in the tables.  It establishes connections with the database through the **DatabaseManager** class.
-- **WeatherSelect**: it selects weather data from the SQLite database. t establishes connections with the database through the **DatabaseManager** class and tge **SqliteWeatherStore** to do the selection.
-- **WeatherStore**: coordinates de retrieval of weather data from the API and its storage in the SQLite database. It uses the clases **OpenWeatherMapProvider**, **DatabaseManager**, and **SqliteWeatherStore**  for this purpose
+- **WeatherSelect**: it selects weather data from the SQLite database. It establishes connections with the database through the **DatabaseManager** class and tge **SqliteWeatherStore** to do the selection.
+- **WeatherStore**: coordinates the retrieval of weather data from the API and its storage in the SQLite database. It uses the clases **OpenWeatherMapProvider**, **DatabaseManager**, and **SqliteWeatherStore**  for this purpose
 - **WebService**: uses the ```Spark``` library to establish a web service that returns weather data in JSON format. It responds to the HTTP requests to retireve weather data from an specific island. It returns a list of the avaliable islands in case someone requires an island that is not included in the database
 - **GUI**: it represents the graphical user interface of the application. You can choose which island you want to retrieve information from, and by pressing the "Show Info" button, you will have all the information displayed on the screen.
 
