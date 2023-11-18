@@ -16,3 +16,11 @@ I worked specifically with coordinates of the Canary Island, using one set of co
 
 This application queries the API every 6 hours to get the weather forecast for each of the 8 islands, retrieving the forecast prediction for the next 5 days at 12 pm each day. These data are stored in an SQL database that includes a table for each island, having a new entry created for each day
 
+## Structure
+The code is structured into two main packages: Model and Control, each encompassing their respective classes and functionalities.
+#### Model Package
+This package serves as a repository for classes that define the data structure. These classes encapsulate the logic and data embodying crucial concepts within the application domain.
+
+- **Weather Class**:  this class represents the variables obtained from the API, getting only those pertinent to the program's objectives, such as temperature, humidity, wind speed, etc. It includes constructors and getter methods.
+  - **Método toString**:
+  - **Método buildJson**:
