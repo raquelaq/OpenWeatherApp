@@ -66,4 +66,8 @@ Here are some webpages I used for the development of my code:
 - https://www.peixe.org.mx/sos/tutVent/
 - https://www.campusmvp.es/recursos/post/como-manejar-correctamente-fechas-en-java-el-paquete-java-time.aspx
 - https://www.geeksforgeeks.org/java-util-timertask-class-java/
-- 
+- https://www.sqlitetutorial.net/sqlite-java/create-table/
+- https://www.sqlitetutorial.net/sqlite-java/create-database/
+#### Frameworks and Libraries
+I used several dependencies for the proper development of my code, such as ```Apache HttpClient``` for requests and responses over the web, ```Gson``` for manipulating and converting JSON data, ```Spark``` for the development of my web service, and ```SQLite JDBC``` for connecting to and creating databases and tables.
+
