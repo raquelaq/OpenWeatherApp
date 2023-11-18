@@ -22,8 +22,6 @@ The code is structured into two main packages: Model and Control, each encompass
 This package serves as a repository for classes that define the data structure. These classes encapsulate the logic and data embodying crucial concepts within the application domain.
 
 - **Weather Class**:  this class represents the variables obtained from the API, getting only those pertinent to the program's objectives, such as temperature, humidity, wind speed, etc. It includes constructors and getter methods.
-  - **Método toString**:
-  - **Método buildJson**:
 - **Coordinates Class**: represents geographical coordinates, including the name of the place associated with the coordinates, and the place's latitude and longitude
 
 #### Control Package
