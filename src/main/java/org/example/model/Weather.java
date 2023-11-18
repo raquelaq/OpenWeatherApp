@@ -60,4 +60,11 @@ public class Weather {
         return String.format("DateTime: %s, Temperature: %.2f °C, Rain: %.2f mm, Humidity: %.2f%%, Clouds: %.2f%%, WindSpeed: %.2f m/s",
                 forecastTime, temperature, rain, humidity, clouds, windSpeed);
     }
+
+    public String buildJson() {
+        return "\"Weather[System_ts = " + ts.toString() + ", dateTime = " + forecastTime.toString()
+                + ", Temperature = " + temperature + ", Rain = " + rain + ", Humidity = " + humidity
+                + ", Clouds = " + clouds + ", windSpeed = " + windSpeed + ", Latitude = " + coordinates.getLatitude()
+                + ", Longitude = " + coordinates.getLongitude() + "]";
+    }
 }

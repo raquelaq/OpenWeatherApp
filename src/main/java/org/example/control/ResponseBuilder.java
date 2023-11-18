@@ -8,8 +8,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class ResponseBuilder {
-    public String response(Coordinates coordinates, String query) throws IOException {
-        String url = String.format(query, coordinates.getLatitude(), coordinates.getLongitude()); // construir la url
+    public String response(Coordinates coordinates, String query, String apiKey) throws IOException {
+        String url = String.format(query, coordinates.getLatitude(), coordinates.getLongitude(), apiKey);
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         InputStream inputStream = connection.getInputStream();
         StringBuilder builder = new StringBuilder();

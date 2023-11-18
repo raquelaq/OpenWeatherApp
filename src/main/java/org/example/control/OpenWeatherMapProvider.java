@@ -15,16 +15,8 @@ import java.time.Instant;
 import java.util.*;
 
 public class OpenWeatherMapProvider {
-    // Clase encargada de obtener todos los datos
-    private static final String query = "https://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&appid=96401e11b3d4fbefb6ff23c1a69fde24&units=metrics";
-
-    public JsonObject generate(Coordinates coordinates) throws IOException {
-        ResponseBuilder responseBuilder = new ResponseBuilder();
-        String res = responseBuilder.response(coordinates, query);
-        JsonParser parser = new JsonParser();
-        return (JsonObject) parser.parse(res);
-    }
-
+    private final String API_KEY = "INSERT YOU API KEY HERE";
+    private final String QUERY = "https://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&appid=%s&units=metrics";
 
     public List<Weather> buildWeather(Coordinates coordinates) throws IOException {
         Instant instant = Instant.now();
@@ -43,6 +35,22 @@ public class OpenWeatherMapProvider {
         return weatherList;
     }
 
+    private JsonObject generate(Coordinates coordinates) throws IOException {
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+        String response = responseBuilder.response(coordinates, QUERY, API_KEY);
+        JsonParser parser = new JsonParser();
+        return (JsonObject) parser.parse(response);
+    }
+
+    private void buildWeatherList(Instant instant, JsonObject jsonObject, Coordinates coordinates, List<Weather> weatherList) {
+        double precipitation = getPrecipitation(jsonObject);
+        double temperature = getTemperature(jsonObject);
+        double humidity = getHumidity(jsonObject);
+        double clouds = getClouds(jsonObject);
+        double windSpeed = getWindSpeed(jsonObject);
+        Instant forecastTime = getForecastTime(jsonObject);
+        weatherList.add(new Weather(instant, forecastTime, temperature, precipitation, humidity, clouds, windSpeed, coordinates));
+    }
 
     private double getPrecipitation(JsonObject jsonObject) {
         return jsonObject.get("pop").getAsDouble() * 100;
@@ -52,6 +60,12 @@ public class OpenWeatherMapProvider {
         JsonObject main = jsonObject.get("main").getAsJsonObject();
         double temperature = main.get("temp").getAsDouble();
         return round(kelvinToCelcius(temperature), 2);
+    }
+
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(value));
+        return bigDecimal.setScale(places, RoundingMode.HALF_UP).doubleValue();
     }
 
     private double kelvinToCelcius(double temperature) {
@@ -78,33 +92,16 @@ public class OpenWeatherMapProvider {
         return forecastTime;
     }
 
-    private void buildWeatherList(Instant instant, JsonObject jsonObject, Coordinates coordinates, List<Weather> weatherList) {
-        double precipitation = getPrecipitation(jsonObject);
-        double temperature = getTemperature(jsonObject);
-        double humidity = getHumidity(jsonObject);
-        double clouds = getClouds(jsonObject);
-        double windSpeed = getWindSpeed(jsonObject);
-        Instant forecastTime = getForecastTime(jsonObject);
-        weatherList.add(new Weather(instant, forecastTime, temperature, precipitation, humidity, clouds, windSpeed, coordinates));
-    }
-
-
     public Map<String, Coordinates> createMap() {
-        Map<String, Coordinates> dict = new HashMap<>();
-        dict.put("Gran Canaria", new Coordinates("Galdar", 28.14701,-15.6502));
-        dict.put("Tenerife", new Coordinates("Garachico", 28.373686, -16.7640491));
-        dict.put("Fuerteventura", new Coordinates("Antigua",28.4160163, -14.0118473));
-        dict.put("Lanzarote", new Coordinates("Yaiza",28.9567800, -13.7653500));
-        dict.put("La Palma", new Coordinates("Barlovento",28.816667, -17.766667));
-        dict.put("El Hierro", new Coordinates("Valverde",27.809685, -17.915147));
-        dict.put("La Gomera", new Coordinates("Vallehermoso",28.179868, -17.264683));
-        dict.put("La Graciosa", new Coordinates("Caleta del Sebo",29.231389, -13.501944));
-        return dict;
-    }
-
-    private double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-        BigDecimal bigDecimal = new BigDecimal(Double.toString(value));
-        return bigDecimal.setScale(places, RoundingMode.HALF_UP).doubleValue();
+        Map<String, Coordinates> map = new HashMap<>();
+        map.put("Gran Canaria", new Coordinates("Galdar", 28.14701, -15.6502));
+        map.put("Tenerife", new Coordinates("Garachico", 28.373686, -16.7640491));
+        map.put("Fuerteventura", new Coordinates("Antigua", 28.4160163, -14.0118473));
+        map.put("Lanzarote", new Coordinates("Yaiza", 28.9567800, -13.7653500));
+        map.put("La Palma", new Coordinates("Barlovento", 28.816667, -17.766667));
+        map.put("El Hierro", new Coordinates("Valverde", 27.809685, -17.915147));
+        map.put("La Gomera", new Coordinates("Vallehermoso", 28.179868, -17.264683));
+        map.put("La Graciosa", new Coordinates("Caleta del Sebo", 29.231389, -13.501944));
+        return map;
     }
 }

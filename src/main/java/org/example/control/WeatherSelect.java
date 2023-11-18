@@ -7,13 +7,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class WeatherSelect {
-
-    public static List<Weather> selectWeatherData(String tableName) {
-
+    public List<Weather> selectWeatherData(String tableName) {
         DatabaseManager databaseManager = new DatabaseManager();
-
+        SqliteWeatherStore sqliteWeatherStore = new SqliteWeatherStore();
         try (Connection conn = databaseManager.getConnection("database.db")) {
-            return SqliteWeatherStore.selectWeatherData(tableName);
+            return sqliteWeatherStore.selectWeatherData(tableName);
         } catch (SQLException e) {
             System.out.println("Error connecting to the database: " + e.getMessage());
             return null;

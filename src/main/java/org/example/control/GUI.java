@@ -8,11 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class Interface extends JFrame implements ActionListener {
+public class GUI extends JFrame implements ActionListener {
     private JButton b1;
     private JTextArea textArea;
     private JComboBox<String> tableComboBox;
-    public Interface() {
+
+    public GUI() {
         b1 = new JButton("Show Info");
         b1.addActionListener(this);
 
@@ -49,7 +50,8 @@ public class Interface extends JFrame implements ActionListener {
     }
 
     private void showInfo(String tableName) {
-        List<Weather> weatherList = WeatherSelect.selectWeatherData(tableName);
+        WeatherSelect weatherSelect = new WeatherSelect();
+        List<Weather> weatherList = weatherSelect.selectWeatherData(tableName);
         if (weatherList != null && !weatherList.isEmpty()) {
             StringBuilder info = new StringBuilder();
             for (Weather weather : weatherList) {

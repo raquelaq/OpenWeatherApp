@@ -1,12 +1,10 @@
 package org.example.control;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.TimerTask;
 
 
 public class MyTimerTask extends TimerTask {
-
     public void run() {
         try {
             executeTask();
@@ -17,7 +15,6 @@ public class MyTimerTask extends TimerTask {
 
     private void executeTask() throws SQLException {
         System.out.println("Executing task...");
-
         WeatherStore weatherStore = new WeatherStore();
         try {
             weatherStore.storeWeatherData();

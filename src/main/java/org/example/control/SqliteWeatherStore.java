@@ -37,7 +37,7 @@ public class SqliteWeatherStore {
         statement.execute(createTableSql);
     }
 
-    public static void createTables(Connection conn, Map<String, Coordinates> coordinatesMap) {
+    public void createTables(Connection conn, Map<String, Coordinates> coordinatesMap) {
         try (Statement statement = conn.createStatement()) {
             for (Map.Entry<String, Coordinates> entry : coordinatesMap.entrySet()) {
                 createTable(statement, entry.getKey());
@@ -49,17 +49,13 @@ public class SqliteWeatherStore {
     }
 
     public void insertWeatherData(String tablename, String city, Weather weather, double latitude, double longitude) {
-
-        String insertSql = String.format("INSERT INTO \"%s\" (City, System_ts, dateTime, Temperature, Rain, WindSpeed, Humidity, Clouds, Latitude, Longitude) " +
+        String insertSql = String.format("INSERT INTO \"%s\" (City, System_ts, dateTime, Temperature, Rain, " +
+                "WindSpeed, Humidity, Clouds, Latitude, Longitude) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tablename);
-
         DatabaseManager databaseManager = new DatabaseManager();
-
-
         try (Connection conn = databaseManager.getConnection("database.db");
              PreparedStatement preparedStatement = conn.prepareStatement(insertSql)) {
             conn.setAutoCommit(false);
-
             preparedStatement.setString(1, city);
             preparedStatement.setString(2, formatInstant(weather.getTs()));
             preparedStatement.setString(3, formatInstant(weather.getForecastTime()));
@@ -71,22 +67,18 @@ public class SqliteWeatherStore {
             preparedStatement.setDouble(9, latitude);
             preparedStatement.setDouble(10, longitude);
             preparedStatement.executeUpdate();
-
             conn.commit();
-
-            System.out.println("Data inserted successfully.");
         } catch (SQLException e) {
         }
     }
 
-    public void update(String tablename, String city, Weather weather, double latitude, double longitude) {
-        String updateSql = String.format("UPDATE \"%s\" SET System_ts = ?, Temperature = ?, Rain = ?, WindSpeed = ?, Humidity = ?, Clouds = ?, Latitude = ?, Longitude = ?" +
+    public void update(String tablename, Weather weather, double latitude, double longitude) {
+        String updateSql = String.format("UPDATE \"%s\" SET System_ts = ?, Temperature = ?, Rain = ?, WindSpeed = ?, " +
+                "Humidity = ?, Clouds = ?, Latitude = ?, Longitude = ?" +
                 "WHERE dateTime = ?", tablename);
         DatabaseManager databaseManager = new DatabaseManager();
-
         try (Connection conn = databaseManager.getConnection("database.db");
              PreparedStatement preparedStatement = conn.prepareStatement(updateSql)) {
-
             preparedStatement.setString(1, formatInstant(weather.getTs()));
             preparedStatement.setDouble(2, weather.getTemperature());
             preparedStatement.setDouble(3, weather.getRain());
@@ -102,14 +94,10 @@ public class SqliteWeatherStore {
         }
     }
 
-    public static List<Weather> selectWeatherData(String tablename) {
+    public List<Weather> selectWeatherData(String tablename) {
         List<Weather> weatherList = new ArrayList<>();
-
         String selectSql = String.format("SELECT * FROM \"%s\"", tablename);
-
         DatabaseManager databaseManager = new DatabaseManager();
-
-
         try (Connection conn = databaseManager.getConnection("database.db");
              Statement statement = conn.createStatement();
              ResultSet resultSet = statement.executeQuery(selectSql)) {
@@ -124,7 +112,6 @@ public class SqliteWeatherStore {
                 double clouds = resultSet.getDouble("Clouds");
                 double latitude = resultSet.getDouble("Latitude");
                 double longitude = resultSet.getDouble("Longitude");
-
                 Coordinates coordinates = new Coordinates(city, latitude, longitude);
                 Weather weather = new Weather(ts.toInstant(), forecastTime, temperature, rain, humidity, clouds, windSpeed, coordinates);
                 weatherList.add(weather);
@@ -135,10 +122,9 @@ public class SqliteWeatherStore {
         return weatherList;
     }
 
-    private static String formatInstant(Instant instant) {
+    private String formatInstant(Instant instant) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return localDateTime.format(formatter);
     }
-
 }
