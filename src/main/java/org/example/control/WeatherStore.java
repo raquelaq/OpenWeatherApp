@@ -9,19 +9,21 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Thread.sleep;
+
 public class WeatherStore {
     private final OpenWeatherMapProvider openWeatherMapProvider;
-    private final Connection connection;
 
-    public WeatherStore(Connection connection) {
+    public WeatherStore() {
         this.openWeatherMapProvider = new OpenWeatherMapProvider();
-        this.connection = connection;
     }
 
     public void storeWeatherData() throws IOException {
         Map<String, Coordinates> coordinatesMap = openWeatherMapProvider.createMap();
+        DatabaseManager databaseManager = new DatabaseManager();
+        SqliteWeatherStore sqliteWeatherStore = new SqliteWeatherStore();
 
-        try (Connection conn = DatabaseManager.getConnection("database.db")) {
+        try (Connection conn = databaseManager.getConnection("database.db")) {
             SqliteWeatherStore.createTables(conn, coordinatesMap);
 
             for (Map.Entry<String, Coordinates> entry : coordinatesMap.entrySet()) {
@@ -31,7 +33,8 @@ public class WeatherStore {
 
                 List<Weather> weatherList = openWeatherMapProvider.buildWeather(coordinates);
                 for (Weather weather : weatherList) {
-                    SqliteWeatherStore.insertWeatherData(conn, tablename, city, weather, coordinates.getLatitude(), coordinates.getLongitude());
+                    sqliteWeatherStore.update(tablename, city, weather, coordinates.getLatitude(), coordinates.getLongitude());
+                    sqliteWeatherStore.insertWeatherData(tablename, city, weather, coordinates.getLatitude(), coordinates.getLongitude());
                 }
             }
 

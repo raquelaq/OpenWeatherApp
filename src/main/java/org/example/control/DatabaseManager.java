@@ -7,7 +7,7 @@ public class DatabaseManager {
     //Crear el insert, crear el select
     private static final String path = "C:\\Users\\ralme\\IdeaProjects\\OpenWeatherApp\\src\\main\\resources\\";
 
-    public static Connection getConnection(String fileName) throws SQLException {
+    public Connection getConnection(String fileName) throws SQLException {
         String url = "jdbc:sqlite:" + path + fileName;
         return DriverManager.getConnection(url);
     }

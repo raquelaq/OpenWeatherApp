@@ -20,9 +20,10 @@ public class SqliteWeatherStore {
     private static void createTable(Statement statement, String tableName) throws SQLException {
         String createTableSql = String.format(
                 "CREATE TABLE IF NOT EXISTS \"%s\" (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "City TEXT, " +
                         "System_ts TEXT, " +
-                        "dateTime TEXT, " +
+                        "dateTime TEXT UNIQUE, " +
                         "Temperature REAL, " +
                         "Rain REAL, " +
                         "WindSpeed REAL, " +
@@ -47,13 +48,16 @@ public class SqliteWeatherStore {
         }
     }
 
-
-    public static void insertWeatherData(Connection conn, String tablename, String city, Weather weather, double latitude, double longitude) {
+    public void insertWeatherData(String tablename, String city, Weather weather, double latitude, double longitude) {
 
         String insertSql = String.format("INSERT INTO \"%s\" (City, System_ts, dateTime, Temperature, Rain, WindSpeed, Humidity, Clouds, Latitude, Longitude) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tablename);
 
-        try (PreparedStatement preparedStatement = conn.prepareStatement(insertSql)) {
+        DatabaseManager databaseManager = new DatabaseManager();
+
+
+        try (Connection conn = databaseManager.getConnection("database.db");
+             PreparedStatement preparedStatement = conn.prepareStatement(insertSql)) {
             conn.setAutoCommit(false);
 
             preparedStatement.setString(1, city);
@@ -72,16 +76,42 @@ public class SqliteWeatherStore {
 
             System.out.println("Data inserted successfully.");
         } catch (SQLException e) {
-            System.out.println("Error inserting data: " + e.getMessage());
         }
     }
 
-    public static List<Weather> selectWeatherData(Connection conn, String tablename) {
+    public void update(String tablename, String city, Weather weather, double latitude, double longitude) {
+        String updateSql = String.format("UPDATE \"%s\" SET System_ts = ?, Temperature = ?, Rain = ?, WindSpeed = ?, Humidity = ?, Clouds = ?, Latitude = ?, Longitude = ?" +
+                "WHERE dateTime = ?", tablename);
+        DatabaseManager databaseManager = new DatabaseManager();
+
+        try (Connection conn = databaseManager.getConnection("database.db");
+             PreparedStatement preparedStatement = conn.prepareStatement(updateSql)) {
+
+            preparedStatement.setString(1, formatInstant(weather.getTs()));
+            preparedStatement.setDouble(2, weather.getTemperature());
+            preparedStatement.setDouble(3, weather.getRain());
+            preparedStatement.setDouble(4, weather.getWindSpeed());
+            preparedStatement.setDouble(5, weather.getHumidity());
+            preparedStatement.setDouble(6, weather.getClouds());
+            preparedStatement.setDouble(7, latitude);
+            preparedStatement.setDouble(8, longitude);
+            preparedStatement.setString(9, formatInstant(weather.getForecastTime()));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static List<Weather> selectWeatherData(String tablename) {
         List<Weather> weatherList = new ArrayList<>();
 
         String selectSql = String.format("SELECT * FROM \"%s\"", tablename);
 
-        try (Statement statement = conn.createStatement();
+        DatabaseManager databaseManager = new DatabaseManager();
+
+
+        try (Connection conn = databaseManager.getConnection("database.db");
+             Statement statement = conn.createStatement();
              ResultSet resultSet = statement.executeQuery(selectSql)) {
             while (resultSet.next()) {
                 String city = resultSet.getString("City");
@@ -107,7 +137,7 @@ public class SqliteWeatherStore {
 
     private static String formatInstant(Instant instant) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return localDateTime.format(formatter);
     }
 

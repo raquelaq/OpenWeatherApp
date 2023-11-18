@@ -2,30 +2,32 @@ package org.example.control;
 
 import org.example.model.Weather;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class Main {
     public static void main(String[] args) throws IOException, SQLException {
-        Connection connection = DatabaseManager.getConnection("database.db");
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection("database.db");
 
-        WeatherStore weatherStore = new WeatherStore(connection);
-        weatherStore.storeWeatherData();
-
-        //MyTimerTask myTimerTask = new MyTimerTask(connection);
+        MyTimerTask myTimerTask = new MyTimerTask();
 
 
-        /*Timer timer = new Timer();
-        timer.schedule(myTimerTask, 0, 60000);
+        Timer timer = new Timer();
+        timer.schedule(myTimerTask, 0, 30000);
         //timer.schedule(myTimerTask, 0, 3 * 60 * 60 * 1000);
 
+        SwingUtilities.invokeLater(() -> {
+            Interface miAplicacion = new Interface();
+            miAplicacion.setVisible(true);
+        });
 
-        try {
+        /*try {
             Thread.sleep(600000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -41,13 +43,13 @@ public class Main {
             e.printStackTrace();
         }*/
 
-        List<Weather> weatherList = WeatherSelect.selectWeatherData("El Hierro");
+        /*List<Weather> weatherList = WeatherSelect.selectWeatherData("El Hierro");
 
         // Imprimir los resultados o realizar otras operaciones con ellos
        if (weatherList != null) {
             for (Weather weather : weatherList) {
                 System.out.println(weather.toString());
             }
-        }
+        }*/
     }
 }

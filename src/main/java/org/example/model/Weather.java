@@ -54,4 +54,10 @@ public class Weather {
     public Coordinates getCoordinates() {
         return coordinates;
     }
+
+    @Override
+    public String toString() {
+        return String.format("DateTime: %s, Temperature: %.2f °C, Rain: %.2f mm, Humidity: %.2f%%, Clouds: %.2f%%, WindSpeed: %.2f m/s",
+                forecastTime, temperature, rain, humidity, clouds, windSpeed);
+    }
 }

@@ -9,8 +9,11 @@ import java.util.List;
 public class WeatherSelect {
 
     public static List<Weather> selectWeatherData(String tableName) {
-        try (Connection conn = DatabaseManager.getConnection("database.db")) {
-            return SqliteWeatherStore.selectWeatherData(conn, tableName);
+
+        DatabaseManager databaseManager = new DatabaseManager();
+
+        try (Connection conn = databaseManager.getConnection("database.db")) {
+            return SqliteWeatherStore.selectWeatherData(tableName);
         } catch (SQLException e) {
             System.out.println("Error connecting to the database: " + e.getMessage());
             return null;
