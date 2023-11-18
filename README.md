@@ -27,4 +27,22 @@ This package serves as a repository for classes that define the data structure. 
 - **Coordinates Class**: represents geographical coordinates, including the name of the place associated with the coordinates, and the place's latitude and longitude
 
 #### Control Package
+This package comprises a collection of Java classesresponsible for executing the control and logic of the application. These classes are specifically crafted to orchestrate the interaction among the data model, business logic, and user interface.
+
+- **Controller**: is responsible for the execution of the application.
+- **DatabaseManager**: contains the method ```getConnection```, which is in charge of establishing the connection with the database, and the method ```createDatabase()```, which handles the creation and management of the SQLite database.
+
+   ⚠️**You must insert your "resources" path into the variable ```path``` so you can create your database**⚠️
+
+- **Main**: houses the principal method ```main()``` that initiates the application. It creates an instance of ```Controller``` and calls the method ```execute()``` to start running the code
+- **MyTimerTask**: extends de ```TimerTask``` class and executes periodic tasks. Each time it runs, it stores weather data in the database. With this class, the code is set to run every six hours to obtain new predictions.
+- **ResponseBuilder**: contructs a response from the API requests. Uses an ```HttpURLConnection``` to make the request and obtain the response.
+- **OpenWeatherMapProvider**: it communicates with the OpenWeatherMap API to retrieve weather data. The ```buildWeather()``` method consctructs Weather objects from the API response and to create a coordinates map associated with the city names of the islands.
+
+   ⚠️**You must insert your "API KEY" into the variable ```API_KEY``` to do de API call**⚠️
+- **SqliteWeatherStore**: manages the creation of the tables in the database using SQLite sentences. It includes methods for inserting, updating, and selecting weather data in the tables.  It establishes connections with the database through the **DatabaseManager** class.
+- **WeatherSelect**: it selects weather data from the SQLite database. t establishes connections with the database through the **DatabaseManager** class and tge **SqliteWeatherStore** to do the selection.
+- **WeatherStore**: coordinates de retrieval of weather data from the API and its storage in the SQLite database. It uses the clases **OpenWeatherMapProvider**, **DatabaseManager**, and **SqliteWeatherStore**  for this purpose
+- **WebService**: uses the ```Spark``` library to establish a web service that returns weather data in JSON format. It responds to the HTTP requests to retireve weather data from an specific island. It returns a list of the avaliable islands in case someone requires an island that is not included in the database
+- **GUI**: it represents the graphical user interface of the application. You can choose which island you want to retrieve information from, and by pressing the "Show Info" button, you will have all the information displayed on the screen.
 
