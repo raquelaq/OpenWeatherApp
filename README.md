@@ -40,12 +40,13 @@ This package comprises a collection of Java classesresponsible for executing the
 - **Main**: houses the principal method ```main()``` that initiates the application. It creates an instance of ```Controller``` and calls the method ```execute()``` to start running the code
 - **MyTimerTask**: extends de ```TimerTask``` class and executes periodic tasks. Each time it runs, it stores weather data in the database. With this class, the code is set to run every six hours to obtain new predictions.
 - **ResponseBuilder**: contructs a response from the API requests. Uses an ```HttpURLConnection``` to make the request and obtain the response.
-- **OpenWeatherMapProvider**: it communicates with the OpenWeatherMap API to retrieve weather data. The ```buildWeather()``` method consctructs Weather objects from the API response and to create a coordinates map associated with the city names of the islands.
+- **OpenWeatherMapProvider**: it communicates with the OpenWeatherMap API to retrieve weather data. The ```buildWeather()``` method consctructs Weather objects from the API response and to create a coordinates map associated with the city names of the islands. In this case, the cities chosen are: Gran Canaria -> Galdar, Tenerife -> Garachico, Fuerteventura -> Antigua, Lanzarote -> Yaiza, La Palma -> Barlovento, El Hierro -> Valverde, La Gomera -> Vallehermoso, La Graciosa -> Caleta de Sebo.
 
    ⚠️**You must insert your "API KEY" into the variable ```API_KEY``` to do de API call**⚠️
 <p align="center">
 <img width="352" alt="image" src="https://github.com/raquelaq/OpenWeatherApp/assets/117348659/5f98782c-17b9-4d77-8175-f3b8a98f6f4f">
 </p>
+
 - **SqliteWeatherStore**: manages the creation of the tables in the database using SQLite sentences. It includes methods for inserting, updating, and selecting weather data in the tables.  It establishes connections with the database through the **DatabaseManager** class.
 - **WeatherSelect**: it selects weather data from the SQLite database. t establishes connections with the database through the **DatabaseManager** class and tge **SqliteWeatherStore** to do the selection.
 - **WeatherStore**: coordinates de retrieval of weather data from the API and its storage in the SQLite database. It uses the clases **OpenWeatherMapProvider**, **DatabaseManager**, and **SqliteWeatherStore**  for this purpose
