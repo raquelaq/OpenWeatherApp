@@ -1,4 +1,4 @@
-# OpenWeatherApp
+<h1 align="center"> OpenWeatherMap Data Capturing </h1>
 
 ## General Information
 This project has been created by Raquel Almeida Quesada for "Development of Applications for Data Science" (DACD), a second-year subject offered in the Data Science and Engineering Degree at the University of Las Palmas de Gran Canaria (ULPGC), School of Computer Engineering (EII).
