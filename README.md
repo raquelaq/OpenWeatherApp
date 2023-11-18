@@ -69,3 +69,14 @@ Here are some webpages I used for the development of my code:
 #### Frameworks and Libraries
 I used several dependencies for the proper development of my code, such as ```Apache HttpClient``` for requests and responses over the web, ```Gson``` for manipulating and converting JSON data, ```Spark``` for the development of my web service, and ```SQLite JDBC``` for connecting to and creating databases and tables.
 
+## Design Patterns and Principles
+### Design Patterns
+- **Observer**: MyTimerTask acts as an observer that performs periodic tasks and notifies WeatherStore to store weather dat
+### Design Principles
+In my code, you can tell some of the SOLID principles:
+- **Single Responsibility Principle (SRP)**: many of my clases have single and specific responsibilities. WeatherStore handles the storage of weather data, OpenWeatherMapProvider manages the retrieval of weather data, and DatabaseManager handles database management.
+- **Dependency Inversion Principle (DIP):** In general, dependencies are inverted, with high-level classes (Controller, WeatherStore, WebService) depending on abstractions or interfaces rather than concrete details.
+## Class Diagram
+Here you have a class diagram of my code:
+![OpenWeather_diagram](https://github.com/raquelaq/OpenWeatherApp/assets/117348659/d00d4dcb-b76d-4089-aac5-8454e7e4415d)
+
