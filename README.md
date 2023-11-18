@@ -1,8 +1,12 @@
 <h1 align="center"> OpenWeatherMap Data Capturing </h1>
+
 <p align="left">
+
    <img src="https://img.shields.io/badge/STATUS-DONE-green">
    <img src="https://img.shields.io/badge/Released-November%202023-yellow">
    </p>
+   
+![weatherforecastportada](https://github.com/raquelaq/OpenWeatherApp/assets/117348659/f5e9492b-b3b8-48f7-b837-44e425594930)
 
 ## General Information
 This project has been created by Raquel Almeida Quesada for "Development of Applications for Data Science" (DACD), a second-year subject offered in the Data Science and Engineering Degree at the University of Las Palmas de Gran Canaria (ULPGC), School of Computer Engineering (EII).
