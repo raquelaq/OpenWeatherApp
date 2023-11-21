@@ -11,7 +11,7 @@
 ## General Information
 This project has been created by Raquel Almeida Quesada for "Desarrollo de Aplicaciones para la Ciencia de Datos" (DACD), a second-year subject offered in the Data Science and Engineering Degree at the University of Las Palmas de Gran Canaria (ULPGC), School of Computer Engineering (EII).
 
-## The Proyect
+## The Project
 The main objective of this program is to consume data from a REST API that provides public and free data. The API used in this case is the "Call 5 day / 3 hour forecast data" API from OpenWeatherMap.
 
 With this API, we can search a weather forecast for 5 days with data every 3 hours, based on the geographic coordinates of our choice.
